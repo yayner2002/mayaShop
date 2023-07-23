@@ -7,6 +7,7 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
+import CheckoutSteps from "../Components/CheckoutSteps";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
@@ -43,6 +44,7 @@ const LoginScreen = () => {
   };
   return (
     <FormContainer>
+         <CheckoutSteps step1 />
       <h1>Sign In</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="email">
