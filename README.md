@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# mayaShop
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to mayaShop, the ultimate online shopping destination! At mayaShop, we strive to provide you with a seamless and enjoyable shopping experience from the comfort of your own home. Our platform boasts a vast collection of products from various categories, including fashion, electronics, home decor, beauty, sports, and much more.
 
 ## Available Scripts
 
