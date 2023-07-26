@@ -22,6 +22,7 @@ import ShippingScreen from "./Screens/ShippingScreen";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
 import PaymentScreen from "./Screens/PaymentScreen";
 import PlaceOrderScreeen from "./Screens/PlaceOrderScreeen";
+import OrderScreen from "./Screens/OrderScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,11 +32,11 @@ const router = createBrowserRouter(
       <Route path="/cart" element={<CartScreen />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/register" element={<RegisterScreen />} />
-
       <Route path="" element={<ProtectedRoutes />}>
         <Route path="/shipping" element={<ShippingScreen />} />
         <Route path="/payment" element={<PaymentScreen />} />
         <Route path="/placeorder" element={<PlaceOrderScreeen />} />
+        <Route path="/order/:id" element={<OrderScreen />} />
       </Route>
     </Route>
   )
