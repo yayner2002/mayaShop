@@ -23,7 +23,7 @@ import ProtectedRoutes from "./Components/ProtectedRoutes";
 import PaymentScreen from "./Screens/PaymentScreen";
 import PlaceOrderScreeen from "./Screens/PlaceOrderScreeen";
 import OrderScreen from "./Screens/OrderScreen";
-import PayPalScriptProvider from "@paypal/react-paypal-js";
+import {PayPalScriptProvider} from "@paypal/react-paypal-js";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
