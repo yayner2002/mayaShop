@@ -91,15 +91,16 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 // @desc    Update order to delivered
 // @route   PUT /api/orders/:id/deliver
 // @access  Private/Admin
-const updateOrderToDelivered = asyncHandler((req, res) => {
+const updateOrderToDelivered = asyncHandler(async (req, res) => {
   res.send("update order to delivered");
 });
 
 // @desc    Get all orders
 // @route   GET /api/orders
 // @access  Private/Admin
-const getOrders = asyncHandler((req, res) => {
-  res.send("get all orders");
+const getOrders = asyncHandler(async (req, res) => {
+  const orders = await Order.find({}).populate("user", "id name");
+  res.status(200).json(orders);
 });
 
 export {
