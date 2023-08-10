@@ -14,7 +14,9 @@ const OrderListScreen = () => {
       {isLoading ? (
         <LoadingSpinner />
       ) : error ? (
-        <MessageAlert variant="danger" />
+        <MessageAlert variant="danger">
+          <strong>{error?.data?.message}</strong>
+        </MessageAlert>
       ) : (
         <Table striped hover responsive className="table-sm">
           <thead>
