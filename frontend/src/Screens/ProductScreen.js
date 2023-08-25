@@ -7,6 +7,7 @@ import MessageAlert from "../Components/MessageAlert";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import  { addToCart } from "../slices/cartSlice";
+import { FaArrowLeft } from "react-icons/fa";
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
@@ -28,7 +29,7 @@ navigate('/cart')
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
-        Go Back
+        <FaArrowLeft className="mx-2"/> Go Back
       </Link>
       {isLoading ? (
         <LoadingSpinner />
