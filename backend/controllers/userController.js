@@ -157,7 +157,7 @@ const updateUser = asyncHandler(async (req, res) => {
   if (user) {
     (user.name = name || user.name),
       (user.email = email || user.email),
-      (user.isadmin = isAdmin || user.isAdmin);
+      (user.isAdmin = Boolean(isAdmin));
 
     const updatedUser = await user.save();
 
