@@ -44,6 +44,7 @@ router.post("/", upload.single("image"), (req, res) => {
   res.send({
     message: "Image uploaded successfully",
     image: `/${req.file.path}`,
+    
   });
 });
 

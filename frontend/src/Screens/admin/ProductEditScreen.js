@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import {
   useGetProductDetailsQuery,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } from "../../slices/productsApiSlice";
 import MessageAlert from "../../Components/MessageAlert";
 import LoadingSpinner from "../../Components/LoadingSpinner";
@@ -30,6 +31,8 @@ const ProductEditScreen = () => {
 
   const [updateProduct, { isLoading: loadingUpdate, error: updateError }] =
     useUpdateProductMutation();
+  const [uploadProductImage, { isLoading: loadingUpload, error: uploadError }] =
+    useUploadProductImageMutation();
 
   const navigate = useNavigate();
 
@@ -65,6 +68,18 @@ const ProductEditScreen = () => {
     }
   };
 
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0];
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+    } catch (error) {
+      toast.error(error?.data?.message || error.message);
+    }
+  };
   return (
     <>
       <Link to="/admin/productlist" className="btn btn-light my-3">
@@ -72,7 +87,16 @@ const ProductEditScreen = () => {
       </Link>
       <FormContainer>
         <h1>Edit Product</h1>
+        {loadingUpload && <LoadingSpinner />}
+        {uploadError && (
+          <MessageAlert variant="danger">
+            {uploadError?.data?.message || "Image upload failed. Try again"}
+          </MessageAlert>
+        )}
         {loadingUpdate && <LoadingSpinner />}
+        {updateError && (
+          <MessageAlert variant="danger">{updateError}</MessageAlert>
+        )}
         {isLoading ? (
           <LoadingSpinner />
         ) : error ? (
@@ -103,11 +127,17 @@ const ProductEditScreen = () => {
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter product image"
+                placeholder="Enter image url"
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
                 required
               />
+              <Form.Control
+                type="file"
+                id="image-file"
+                label="Choose File"
+                onChange={uploadFileHandler}
+              ></Form.Control>
             </Form.Group>
             <Form.Group controlId="category">
               <Form.Label>Category</Form.Label>

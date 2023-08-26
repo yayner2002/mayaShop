@@ -1,4 +1,4 @@
-import { PRODUCTS_URL } from "../constants";
+import { PRODUCTS_URL, UPLOAD_URL } from "../constants";
 import { apiSlice } from "./apiSlice";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
@@ -7,7 +7,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: PRODUCTS_URL,
       }),
-      providesTags: ["Products"], // 
+      providesTags: ["Products"], // cache the data of the products
       keepUnusedDataFor: 5, // keep the data in the cache for 5 seconds if it becomes unused
     }),
     getProductDetails: builder.query({
@@ -29,7 +29,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["Products"], // we dont have to refetch the product details after an update
+      invalidatesTags: ["Products"], // clear the cache after an update
+    }),
+    uploadProductImage: builder.mutation({
+      query: (data) => ({
+        url: `${UPLOAD_URL}`,
+        method: "POST",
+        body: data,
+      }), // we dont have to refetch the product details after an update
     }),
   }),
 });
@@ -39,4 +46,5 @@ export const {
   useGetProductDetailsQuery,
   useCreateProductMutation,
   useUpdateProductMutation,
+  useUploadProductImageMutation,
 } = productsApiSlice;
