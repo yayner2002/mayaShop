@@ -5,28 +5,40 @@ import { toast } from "react-toastify";
 import {
   useGetProductsQuery,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } from "../../slices/productsApiSlice";
 import MessageAlert from "../../Components/MessageAlert";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 
-const deleteHandler = (id) => {
-  if (window.confirm("Are you sure you want to delete this product?")) {
-    // delete product
-  }
-};
 const ProductListScreen = () => {
   const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+
   const [createProduct, { isLoading: loadingCreate, error: createError }] =
     useCreateProductMutation();
+
+  const [deleteProduct, { isLoading: loadingDelete, error: deleteError }] =
+    useDeleteProductMutation();
 
   const createProductHandler = async () => {
     if (window.confirm("Are you sure you want to create a new product?")) {
       try {
         await createProduct();
-        toast.success("Product created successfully");
+        toast.success("Sample Product created successfully and you can edit it now.");
         refetch();
       } catch (error) {
         toast.error(error?.data?.message || error.message);
+      }
+    }
+  };
+
+  const deleteHandler = async (productId) => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      try {
+        const res = await deleteProduct(productId);
+        toast.success(res.data.message);
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
       }
     }
   };
@@ -38,7 +50,7 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <LinkContainer to="/admin/product/create">
+          <LinkContainer to="/admin/productlist">
             <Button className="m-3" onClick={createProductHandler}>
               <FaEdit /> Create Product
             </Button>
@@ -46,6 +58,10 @@ const ProductListScreen = () => {
         </Col>
       </Row>
       {loadingCreate && <LoadingSpinner />}
+      {loadingDelete && <LoadingSpinner />}
+      {deleteError && (
+        <MessageAlert variant="danger">{deleteError}</MessageAlert>
+      )}
       {createError && (
         <MessageAlert variant="danger">{createError}</MessageAlert>
       )}

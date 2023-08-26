@@ -9,6 +9,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Products"], // cache the data of the products
       keepUnusedDataFor: 5, // keep the data in the cache for 5 seconds if it becomes unused
+      
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
@@ -38,6 +39,12 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         body: data,
       }), // we dont have to refetch the product details after an update
     }),
+    deleteProduct: builder.mutation({
+      query: (productId) => ({
+        url: `${PRODUCTS_URL}/${productId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -47,4 +54,5 @@ export const {
   useCreateProductMutation,
   useUpdateProductMutation,
   useUploadProductImageMutation,
+  useDeleteProductMutation,
 } = productsApiSlice;
