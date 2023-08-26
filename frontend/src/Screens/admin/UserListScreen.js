@@ -3,18 +3,38 @@ import { Table, Button } from "react-bootstrap";
 import MessageAlert from "../../Components/MessageAlert";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import { FaTimes, FaTrash, FaEdit, FaCheck } from "react-icons/fa";
-import { useGetUsersQuery } from "../../slices/usersApiSlice";
+import {
+  useDeleteUserMutation,
+  useGetUsersQuery,
+} from "../../slices/usersApiSlice";
+import { toast } from "react-toastify";
 
 const UserListScreen = () => {
-  const { data: users, isLoading, error } = useGetUsersQuery();
+  const { data: users, isLoading, error, refetch } = useGetUsersQuery();
+  const [deleteUser, { isLoading: loadingDelete, error: deleteError }] =
+    useDeleteUserMutation();
 
-  const deleteHandler = (id) => {
-    console.log("deleteHandler", id);
+  const deleteHandler = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        const res = await deleteUser(userId);
+        toast.success(res.data.message);
+        refetch();
+      } catch (error) {
+        toast.error(error?.data?.message || error.error);
+      }
+    }
   };
 
   return (
     <div>
       <h1>User Lsit</h1>
+      {loadingDelete && <LoadingSpinner />}
+      {deleteError && (
+        <MessageAlert variant="danger">
+          {deleteError?.data?.message}
+        </MessageAlert>
+      )}
       {isLoading ? (
         <LoadingSpinner />
       ) : error ? (
