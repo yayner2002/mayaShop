@@ -37,7 +37,7 @@ const Header = () => {
             <Nav className="ms-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
-                  <FaShoppingCart /> Cart
+                  <FaShoppingCart style={{ fontSize: "20", color: "white"}} /> Cart
                   {cartItems.length > 0 && (
                     <Badge pill bg="success" style={{ marginLeft: "5px" }}>
                       {cartItems.reduce((acc, i) => acc + i.qty, 0)}
@@ -57,7 +57,7 @@ const Header = () => {
               ) : (
                 <LinkContainer to="/login">
                   <Nav.Link>
-                    <FaUser /> Sign In
+                    <FaUser style={{ fontSize: "20"}}  /> Sign In
                   </Nav.Link>
                 </LinkContainer>
               )}
