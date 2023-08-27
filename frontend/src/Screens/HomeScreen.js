@@ -4,9 +4,10 @@ import { useGetProductsQuery } from "../slices/productsApiSlice";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import MessageAlert from "../Components/MessageAlert";
 import { useParams } from "react-router-dom";
+import Paginate from "../Components/Paginate";
 
 const HomeScreen = () => {
-const { pageNumber } = useParams();
+  const { pageNumber } = useParams();
   const { data, isLoading, error } = useGetProductsQuery({ pageNumber });
 
   return (
@@ -14,7 +15,9 @@ const { pageNumber } = useParams();
       {isLoading ? (
         <LoadingSpinner />
       ) : error ? (
-        <MessageAlert variant="danger">{error?.data?.message || error.error}</MessageAlert>
+        <MessageAlert variant="danger">
+          {error?.data?.message || error.error}
+        </MessageAlert>
       ) : (
         <>
           <h1>Latest Products</h1>
@@ -25,6 +28,7 @@ const { pageNumber } = useParams();
               </Col>
             ))}
           </Row>
+          <Paginate page={data.page} pages={data.pages} />
         </>
       )}
     </>
