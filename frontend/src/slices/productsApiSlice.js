@@ -9,7 +9,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       providesTags: ["Products"], // cache the data of the products
       keepUnusedDataFor: 5, // keep the data in the cache for 5 seconds if it becomes unused
-      
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
@@ -45,6 +44,14 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    createReview: builder.mutation({
+      query: (data) => ({
+        url: `${PRODUCTS_URL}/${data.productId}/reviews`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Products"], // clear the cache after a review is created
+    }),
   }),
 });
 
@@ -55,4 +62,5 @@ export const {
   useUpdateProductMutation,
   useUploadProductImageMutation,
   useDeleteProductMutation,
+  useCreateReviewMutation,
 } = productsApiSlice;
