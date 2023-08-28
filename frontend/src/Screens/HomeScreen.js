@@ -3,15 +3,20 @@ import Product from "../Components/Product";
 import { useGetProductsQuery } from "../slices/productsApiSlice";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import MessageAlert from "../Components/MessageAlert";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Paginate from "../Components/Paginate";
+import { FaArrowLeft } from "react-icons/fa";
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
-  const { data, isLoading, error } = useGetProductsQuery({ pageNumber, keyword });
+  const { data, isLoading, error } = useGetProductsQuery({
+    pageNumber,
+    keyword,
+  });
 
   return (
     <>
+      {keyword ? <Link to="/" className="btn btn-outline-secondary mb-4"><FaArrowLeft style={{ marginRight: "3"}} /> Go Back</Link> : null}
       {isLoading ? (
         <LoadingSpinner />
       ) : error ? (
@@ -28,7 +33,11 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          <Paginate page={data.page} pages={data.pages} keyword={ keyword ? keyword : ""} />
+          <Paginate
+            page={data.page}
+            pages={data.pages}
+            keyword={keyword ? keyword : ""}
+          />
         </>
       )}
     </>

@@ -124,10 +124,12 @@ const OrderScreen = () => {
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
-                <strong>Name:</strong> {order.user.name}
+                <strong>Name:</strong>{" "}
+                {order?.user ? order.user.name : "User Name Not Available"}
               </p>
               <p>
-                <strong>Email:</strong> {order.user.email}
+                <strong>Email:</strong>{" "}
+                {order.user ? order.user.email : "User Email Not Available"}
               </p>
               <p>
                 <strong>Adress:</strong> {order.shippingAddress.address},
