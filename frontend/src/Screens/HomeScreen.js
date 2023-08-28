@@ -6,6 +6,7 @@ import MessageAlert from "../Components/MessageAlert";
 import { Link, useParams } from "react-router-dom";
 import Paginate from "../Components/Paginate";
 import { FaArrowLeft } from "react-icons/fa";
+import ProductCarousel from "../Components/ProductCarousel";
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
@@ -16,7 +17,13 @@ const HomeScreen = () => {
 
   return (
     <>
-      {keyword ? <Link to="/" className="btn btn-outline-secondary mb-4"><FaArrowLeft style={{ marginRight: "3"}} /> Go Back</Link> : null}
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to="/" className="btn btn-outline-secondary mb-4">
+          <FaArrowLeft style={{ marginRight: "3" }} /> Go Back
+        </Link>
+      )}
       {isLoading ? (
         <LoadingSpinner />
       ) : error ? (
@@ -25,7 +32,7 @@ const HomeScreen = () => {
         </MessageAlert>
       ) : (
         <>
-          <h1>Latest Products</h1>
+          <h1>Featured Products</h1>
           <Row>
             {data.products.map((product) => (
               <Col sm={12} md={6} lg={4} xl={3} key={product._id}>
