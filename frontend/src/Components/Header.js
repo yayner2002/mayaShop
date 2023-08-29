@@ -7,6 +7,7 @@ import { useLogoutMutation } from "../slices/usersApiSlice";
 import { removeCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
 import SearchBox from "./SearchBox";
+import { resetCart } from "../slices/cartSlice";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -21,6 +22,7 @@ const Header = () => {
       await logout().unwrap();
       toast.success("Logged out successfully");
       dispatch(removeCredentials());
+      dispatch(resetCart());
       navigate("/login");
     } catch (error) {
       console.log(error)();

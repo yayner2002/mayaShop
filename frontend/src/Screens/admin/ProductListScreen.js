@@ -14,7 +14,9 @@ import Paginate from "../../Components/Paginate";
 
 const ProductListScreen = () => {
   const { pageNumber } = useParams();
-  const { data, isLoading, error, refetch } = useGetProductsQuery({ pageNumber });
+  const { data, isLoading, error, refetch } = useGetProductsQuery({
+    pageNumber,
+  });
 
   const [createProduct, { isLoading: loadingCreate, error: createError }] =
     useCreateProductMutation();
@@ -26,10 +28,12 @@ const ProductListScreen = () => {
     if (window.confirm("Are you sure you want to create a new product?")) {
       try {
         await createProduct();
-        toast.success("Sample Product created successfully and you can edit it now.");
+        toast.success(
+          "Sample Product created successfully and you can edit it now."
+        );
         refetch();
       } catch (error) {
-        toast.error(error?.data?.message || error.message);
+        toast.error(error?.data?.message || error.error);
       }
     }
   };
@@ -63,10 +67,14 @@ const ProductListScreen = () => {
       {loadingCreate && <LoadingSpinner />}
       {loadingDelete && <LoadingSpinner />}
       {deleteError && (
-        <MessageAlert variant="danger">{deleteError}</MessageAlert>
+        <MessageAlert variant="danger">
+          {deleteError?.data?.message || deleteError.error}
+        </MessageAlert>
       )}
       {createError && (
-        <MessageAlert variant="danger">{createError}</MessageAlert>
+        <MessageAlert variant="danger">
+          {createError?.data?.message || createError.error}
+        </MessageAlert>
       )}
       {isLoading ? (
         <LoadingSpinner />

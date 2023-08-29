@@ -73,7 +73,7 @@ const OrderScreen = () => {
         refetch();
         toast.success("Payment Successfull");
       } catch (error) {
-        toast.error(error?.data?.message || error.message);
+        toast.error(error?.data?.message || error.error);
       }
     });
   };
@@ -87,7 +87,7 @@ const OrderScreen = () => {
   // };
   const onError = (err) => {
     // called when there is an error
-    toast.error(err?.data?.message || err.message);
+    toast.error(err?.data?.message || err.error);
   };
   const createOrder = (data, actions) => {
     // called when the user clicks the pay button
@@ -108,13 +108,15 @@ const OrderScreen = () => {
       refetch();
       toast.success("Order Delivered");
     } catch (error) {
-      toast.error(error?.data?.message || error.message);
+      toast.error(error?.data?.message || error.error);
     }
   };
   return isLoading ? (
     <LoadingSpinner />
   ) : error ? (
-    <MessageAlert variant="danger">{error?.data?.message}</MessageAlert>
+    <MessageAlert variant="danger">
+      {error?.data?.message || error.error}
+    </MessageAlert>
   ) : (
     <>
       <h1>Order: {order._id} </h1>

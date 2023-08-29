@@ -64,7 +64,7 @@ const ProductEditScreen = () => {
       toast.success("Product updated successfully");
       navigate("/admin/productlist");
     } catch (error) {
-      toast.error(error?.data?.message || error.message);
+      toast.error(error?.data?.message || error.error);
     }
   };
 
@@ -77,7 +77,7 @@ const ProductEditScreen = () => {
       toast.success(res.message);
       setImage(res.image);
     } catch (error) {
-      toast.error(error?.data?.message || error.message);
+      toast.error(error?.data?.message || error.error);
     }
   };
   return (
@@ -90,7 +90,7 @@ const ProductEditScreen = () => {
         {loadingUpload && <LoadingSpinner />}
         {uploadError && (
           <MessageAlert variant="danger">
-            {uploadError?.data?.message || "Image upload failed. Try again"}
+            {uploadError?.data?.message || uploadError.error}
           </MessageAlert>
         )}
         {loadingUpdate && <LoadingSpinner />}

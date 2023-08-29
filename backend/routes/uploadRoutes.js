@@ -1,50 +1,48 @@
-import path from "path";
-import express from "express";
-import multer from "multer";
-const router = express.Router();
+import path from 'path';
+import express from 'express';
+import multer from 'multer';
 
-// which storage engine to use where our files will be stored
+const router = express.Router();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    // cb = callback
-    cb(null, "uploads/"); // folder where we want to upload our files
+    cb(null, 'uploads/');
   },
   filename(req, file, cb) {
     cb(
       null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    ); // file.fieldname = name of the file, Date.now() = current date, path.extname(file.originalname) = extension of the file
+    );
   },
 });
 
-// function to check if the file is an image or not
-function checkFileType(file, cb) {
-  const fileTypes = /jpg|jpeg|png/; // regular expression
-  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase()); // test if the extension name is in the fileTypes array
-  const mimetype = fileTypes.test(file.mimetype); // test if the mimetype is in the fileTypes array
+function fileFilter(req, file, cb) {
+  const filetypes = /jpe?g|png|webp/;
+  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
+
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = mimetypes.test(file.mimetype);
 
   if (extname && mimetype) {
-    return cb(null, true); // if the file is an image
+    cb(null, true);
   } else {
-    cb("Images only!"); // if the file is not an image
+    cb(new Error('Images only!'), false);
   }
 }
 
-// upload middleware
-const upload = multer({
-  storage,
-  fileFilter: function (req, file, cb) {
-    checkFileType(file, cb);
-  },
-});
+const upload = multer({ storage, fileFilter });
+const uploadSingleImage = upload.single('image');
 
-// upload route
-router.post("/", upload.single("image"), (req, res) => {
-  res.send({
-    message: "Image uploaded successfully",
-    image: `/${req.file.path}`,
-    
+router.post('/', (req, res) => {
+  uploadSingleImage(req, res, function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message });
+    }
+
+    res.status(200).send({
+      message: 'Image uploaded successfully',
+      image: `/${req.file.path}`,
+    });
   });
 });
 

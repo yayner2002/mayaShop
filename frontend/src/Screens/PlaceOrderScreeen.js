@@ -39,8 +39,8 @@ const PlaceOrderScreen = () => {
       dispatch(clearCartItems());
       toast.success("Order Placed Successfully");
       navigate(`/order/${res._id}`);
-    } catch (err) {
-      toast.error(error?.data?.message);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
     }
   };
 
