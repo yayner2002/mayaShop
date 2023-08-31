@@ -30,7 +30,7 @@ import AdminRoutes from "./Components/AdminRoutes";
 import ProductListScreen from "./Screens/admin/ProductListScreen";
 import ProductEditScreen from "./Screens/admin/ProductEditScreen";
 import UserListScreen from "./Screens/admin/UserListScreen";
-import { HelmetProvider } from "react-helmet-async"
+import { HelmetProvider } from "react-helmet-async";
 import UserEditScreen from "./Screens/admin/UserEditScreen";
 
 const router = createBrowserRouter(
@@ -56,7 +56,12 @@ const router = createBrowserRouter(
       </Route>
       <Route path="" element={<AdminRoutes />}>
         <Route path="/admin/orderlist" element={<OrderListScreen />} />
+        <Route
+          path="/admin/orderlist/page/:pageNumber"
+          element={<OrderListScreen />}
+        />
         <Route path="/admin/productlist" element={<ProductListScreen />} />
+
         <Route
           path="/admin/productlist/page/:pageNumber"
           element={<ProductListScreen />}
@@ -72,11 +77,11 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <HelmetProvider>
-    <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
-        <RouterProvider router={router} />
-      </PayPalScriptProvider>
-    </Provider>
+      <Provider store={store}>
+        <PayPalScriptProvider deferLoading={true}>
+          <RouterProvider router={router} />
+        </PayPalScriptProvider>
+      </Provider>
     </HelmetProvider>
   </React.StrictMode>
 );
