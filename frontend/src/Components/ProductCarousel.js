@@ -8,7 +8,9 @@ const ProductCarousel = () => {
   const { data: products, isLoading, error } = useGetTopRatedProductsQuery();
   return (
     <>
-      { isLoading ? ("") : error ? (
+      {isLoading ? (
+        ""
+      ) : error ? (
         <MessageAlert variant="danger">{error}</MessageAlert>
       ) : (
         <>
@@ -16,11 +18,15 @@ const ProductCarousel = () => {
             {products.map((product) => (
               <Carousel.Item key={product._id}>
                 <Link to={`/product/${product._id}`}>
-                  <Image src={product.image} alt={product.name} fluid />
-                  <Carousel.Caption className="carousel-caption">
-                    <h2>
+                  <Image src={product.image} alt={product.name} width="52%"  />
+                  <Carousel.Caption>
+                    <h3>
+                      {" "}
                       {product.name}({product.price})
-                    </h2>
+                    </h3>
+                    <p>
+                      {product.description}
+                    </p>
                   </Carousel.Caption>
                 </Link>
               </Carousel.Item>
